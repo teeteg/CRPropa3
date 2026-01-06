@@ -172,7 +172,7 @@ void Candidate::addSecondary(int id, double energy, double w, std::string tagOri
 void Candidate::addSecondary(int id, double energy, Vector3d position, double w, std::string tagOrigin) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
-	secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR());
+	secondary->setTrajectoryLength(clip(trajectoryLength - (current.getPosition() - position).getR()), 0, trajectorylength);
 	secondary->setTime(time - (current.getPosition() - position).getR() / getVelocity());
 	secondary->setWeight(weight * w);
 	secondary->setTagOrigin(tagOrigin);
