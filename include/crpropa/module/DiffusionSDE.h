@@ -65,9 +65,9 @@ public:
 
 	void process(crpropa::Candidate *candidate) const;
 
-	void tryStep(const Vector3d &Pos, Vector3d &POut, Vector3d &PosErr, double z, double propStep ) const;
+	void tryStep(const Vector3d &Pos, Vector3d &POut, Vector3d &PosErr, double z, double t, double propStep) const;
 	void driftStep(const Vector3d &Pos, Vector3d &LinProp, double h, double t) const;
-	void calculateBTensor(double rig, double BTen[], Vector3d pos, Vector3d dir, double z) const;
+	void calculateBTensor(double rig, double BTen[], Vector3d pos, Vector3d dir, double z, double t) const;
 
 	void setMinimumStep(double minStep);
 	void setMaximumStep(double maxStep);
@@ -91,7 +91,7 @@ public:
 	 @param pos   current position of the candidate
 	 @param z	 current redshift is needed to calculate the magnetic field
 	 @return	  magnetic field vector at the position pos */
-	Vector3d getMagneticFieldAtPosition(Vector3d pos, double z) const;
+	Vector3d getMagneticFieldAtPosition(Vector3d pos, double z, double t) const;
 	ref_ptr<AdvectionField> getAdvectionField() const;
 	/** get advection field vector at current candidate position
 	 @param pos   current position of the candidate
