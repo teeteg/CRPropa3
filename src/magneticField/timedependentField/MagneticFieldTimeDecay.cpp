@@ -2,18 +2,33 @@
 
 using namespace crpropa;
 
+MagneticFieldTimeDecay::MagneticFieldTimeDecay(ref_ptr<MagneticField> field, double t0, double tstart, double n) :
+        magneticField(field) {
+    setDecayTime(t0);
+    setDecayExponent(n);
+    setTimeStart(tstart);
+}
+/**
 MagneticFieldTimeDecay::MagneticFieldTimeDecay(ref_ptr<MagneticField> field, double t0, double n) :
         magneticField(field) {
     setDecayTime(t0);
     setDecayExponent(n);
+    setTimeStart(0.0);
 }
+ */
 
 Vector3d MagneticFieldTimeDecay::getField(const Vector3d &pos, double z, double t) const {
     Vector3d B(0, 0, 0);
+    t = t - tstart;
     if (magneticField.valid()) {
+        if (t >= 0) {
         B = magneticField->getField(pos, z, t);
         double decayFactor = pow((1 + t / t0), -n);
-        B *= decayFactor; // Apply the decay factor to the magnetic field
+        B *= pow(decayFactor, 2); // Apply the decay factor to the magnetic field
+        }
+        else {
+            B = magneticField->getField(pos, z, t);
+        }
     }
 
     return B;
@@ -47,6 +62,14 @@ void MagneticFieldTimeDecay::setDecayExponent(double n) {
 
 double MagneticFieldTimeDecay::getDecayExponent() const {
     return n;
+}
+
+void MagneticFieldTimeDecay::setTimeStart(double tstart) {
+    this->tstart = tstart;
+}
+
+double MagneticFieldTimeDecay::getTimeStart() const {
+    return tstart;
 }
 
 std::string MagneticFieldTimeDecay::getDescription() const {

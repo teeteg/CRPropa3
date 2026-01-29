@@ -26,9 +26,11 @@ private:
     ref_ptr<MagneticField> magneticField; 
     double t0; //< decay time scale 
     double n;  //< decay exponent
+    double tstart; //< start-time of decay (time zero of decay-system)
 
 public: 
-    MagneticFieldTimeDecay(ref_ptr<MagneticField> field, double t0, double n = 6./5);
+    MagneticFieldTimeDecay(ref_ptr<MagneticField> field, double t0, double tstart = 0.0, double n = 6./5);
+    //MagneticFieldTimeDecay(ref_ptr<MagneticField> field, double t0, double n = 6./5);
 
     Vector3d getField(const Vector3d &pos, double z, double t) const override;
 
@@ -40,6 +42,9 @@ public:
 
     void setDecayExponent(double n);
     double getDecayExponent() const;
+
+    void setTimeStart(double tstart);
+    double getTimeStart() const;
 
     std::string getDescription() const;
 };
