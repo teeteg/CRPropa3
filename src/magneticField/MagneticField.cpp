@@ -88,6 +88,51 @@ Vector3d MagneticDipoleField::getField(const Vector3d &position) const {
 		return (unit_r * (unit_r.dot(moment)) * 3 - moment) / pow(r.getR() / radius, 3) * mu0 / (4*M_PI);
 }
 
+RadialMagneticField::RadialMagneticField(ref_ptr<MagneticField> field, const Vector3d &origin, const double r0) :
+	        field(field) {
+    setScaleRadius(r0);
+	setOrigin(origin);
+}
+
+//rn only sets origin to (0,0,0), but could maybe be expanded to get origin from original magnetic field if applicable (probably more an edge case )
+RadialMagneticField::RadialMagneticField(ref_ptr<MagneticField> field, const double r0) :
+	        field(field) {
+    setScaleRadius(r0);
+	setOrigin(Vector3d (0,0,0)); //is this legal?
+}
+
+Vector3d RadialMagneticField::getField(const Vector3d &position, double z, double t) const {
+	Vector3d r = (position - origin);
+	Vector3d B(0,0,0);
+	if (field.valid()) {
+		B = field->getField(position, z, t);
+		B *= 1 / (1 + pow(r.getR() / r0, 2));
+	}
+
+	return B;
+}
+
+void RadialMagneticField::setField(ref_ptr<MagneticField> field) {
+    this->field = field;
+}
+ref_ptr<MagneticField> RadialMagneticField::getField() const {
+    return field;
+}
+
+Vector3d RadialMagneticField::getOrigin() {
+	return origin;
+}
+void RadialMagneticField::setOrigin(const Vector3d &origin) {
+	this->origin = origin;
+}
+
+void RadialMagneticField::setScaleRadius(const double r0) {
+	this->r0 = r0;
+}
+double RadialMagneticField::getScaleRadius() const {
+	return r0;
+}
+
 #ifdef CRPROPA_HAVE_MUPARSER
 RenormalizeMagneticField::RenormalizeMagneticField(ref_ptr<MagneticField> field,
 		std::string expression) :

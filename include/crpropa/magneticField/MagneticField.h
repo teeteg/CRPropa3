@@ -151,6 +151,37 @@ public:
 	Vector3d getField(const Vector3d &position) const;
 };
 
+/**
+ @class RadialMagneticField
+ @brief Scales magnetic field with a radial evolution of form B = B0 * something
+ */
+class RadialMagneticField: public MagneticField {
+	ref_ptr<MagneticField> field;
+	Vector3d origin;
+	double r0; //scale radius
+public:
+	/**
+	 * Constructor
+	 * @param field field to be scaled
+	 * @param r0 scale radius
+	*/
+	RadialMagneticField(ref_ptr<MagneticField> field, const Vector3d &origin, const double r0); 
+	RadialMagneticField(ref_ptr<MagneticField> field, const double r0); 
+
+	Vector3d getField(const Vector3d &position, double z = 0, double t = 0) const; //does that work so all fields with their parameters are covered? probably not because =0 != not existent
+
+	void setField(ref_ptr<MagneticField> field);
+	ref_ptr<MagneticField> getField() const;
+
+	void setScaleRadius(double r0);
+	double getScaleRadius() const;
+
+	Vector3d getOrigin();
+	void setOrigin(const Vector3d &origin);
+
+};
+
+
 #ifdef CRPROPA_HAVE_MUPARSER
 /**
  @class RenormalizeMagneticField
