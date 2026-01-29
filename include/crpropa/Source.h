@@ -773,6 +773,44 @@ public:
 };
 
 
+class SourceTime: public SourceFeature{
+		double t;
+	public:
+	/** Constructor
+	 @param t		time of emission
+	 */
+	SourceTime(double t);
+	SourceTime();
+	void prepareCandidate(Candidate &candidate) const;
+	void setTime(double t);
+	double getTime() const;
+};
+
+//needs log-space for negative values
+class SourceUniformTime: public SourceFeature{
+		double tmin, tmax;
+		bool logscale;
+	public:
+	/** Constructor
+	 @param tmin	 minimum redshift
+	 @param tmax	 maximum redshift
+	 @param logscale uniform in log10-space
+	 */
+	SourceUniformTime(double tmin, double tmax, bool logscale);
+	SourceUniformTime(double tmax, bool logscale);
+	
+
+	void prepareCandidate(Candidate &candidate) const;
+
+	double getTimeMin() const;
+	double getTimeMax() const;
+	bool getLogScale() const;
+	void setTimeMax(double tmax);
+	void setTimeMin(double tmin);
+	void setLogScale(bool logscale);
+};
+
+
 #ifdef CRPROPA_HAVE_MUPARSER
 /**
  @class SourceGenericComposition

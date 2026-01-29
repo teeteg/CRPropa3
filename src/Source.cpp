@@ -942,6 +942,70 @@ void SourceRedshift1D::setDescription() {
 }
 
 // ----------------------------------------------------------------------------
+SourceTime::SourceTime(double t) :
+	t(t) {}
+SourceTime::SourceTime() : t(0.0) {}
+
+void SourceTime::prepareCandidate(Candidate &candidate) const {
+	candidate.setTime(t);
+}
+
+double SourceTime::getTime() const {
+	return t;
+}
+void SourceTime::setTime(double t) {
+	this->t = t;
+}
+
+// ----------------------------------------------------------------------------
+SourceUniformTime::SourceUniformTime(double tmin, double tmax, bool logscale = false) :
+	tmin(tmin), tmax(tmax), logscale(logscale) {
+	} 
+SourceUniformTime::SourceUniformTime(double tmax, bool logscale = false):
+	tmax(tmax), logscale(logscale) {
+		setTimeMin(0.0);
+	} 
+
+void SourceUniformTime::prepareCandidate(Candidate &candidate) const {
+
+	if (logscale) {
+		double tminlog;
+		if (tmin == 0.0) {
+			tminlog = 0.0;
+		}
+		else {
+			tminlog = log10(tmin); //move to standard attribute?
+		}
+		double tmaxlog = log10(tmax);
+		double t =  pow(10, Random::instance().randUniform(tminlog, tmaxlog));
+		candidate.setTime(t);
+	}
+	else {
+		double t = Random::instance().randUniform(tmin, tmax);
+		candidate.setTime(t);
+	}
+}
+
+double SourceUniformTime::getTimeMin() const {
+	return tmin;
+}
+double SourceUniformTime::getTimeMax() const {
+	return tmax;
+}
+bool SourceUniformTime::getLogScale() const {
+	return logscale;
+}
+void SourceUniformTime::setTimeMin(double tmin) {
+	this->tmin = tmin;
+}
+void SourceUniformTime::setTimeMax(double tmax) {
+	this->tmax = tmax;
+}
+void SourceUniformTime::setLogScale(bool logscale) {
+	this->logscale = logscale;
+}
+
+// ----------------------------------------------------------------------------
 #ifdef CRPROPA_HAVE_MUPARSER
 SourceGenericComposition::SourceGenericComposition(double Emin, double Emax, std::string expression, size_t bins) :
 	Emin(Emin), Emax(Emax), expression(expression), bins(bins) {
