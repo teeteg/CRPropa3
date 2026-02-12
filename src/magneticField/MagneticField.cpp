@@ -1,4 +1,5 @@
 #include "crpropa/magneticField/MagneticField.h"
+#include "crpropa/Common.h"
 
 namespace crpropa {
 
@@ -98,7 +99,7 @@ RadialMagneticField::RadialMagneticField(ref_ptr<MagneticField> field, const Vec
 RadialMagneticField::RadialMagneticField(ref_ptr<MagneticField> field, const double r0) :
 	        field(field) {
     setScaleRadius(r0);
-	setOrigin(Vector3d (0,0,0)); //is this legal?
+	setOrigin(Vector3d(0.)); //is this legal?
 }
 
 Vector3d RadialMagneticField::getField(const Vector3d &position, double z, double t) const {
@@ -106,7 +107,7 @@ Vector3d RadialMagneticField::getField(const Vector3d &position, double z, doubl
 	Vector3d B(0,0,0);
 	if (field.valid()) {
 		B = field->getField(position, z, t);
-		B *= 1 / (1 + pow(r.getR() / r0, 2));
+		B *= pow(1 / (1 + pow_integer<2>(r.getR() / r0)), 2./3.);
 	}
 
 	return B;

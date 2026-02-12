@@ -19,12 +19,12 @@ MagneticFieldTimeDecay::MagneticFieldTimeDecay(ref_ptr<MagneticField> field, dou
 
 Vector3d MagneticFieldTimeDecay::getField(const Vector3d &pos, double z, double t) const {
     Vector3d B(0, 0, 0);
-    t = t - tstart;
+    double t_field = t - tstart;
     if (magneticField.valid()) {
-        if (t >= 0) {
+        if (t_field >= 0) {
         B = magneticField->getField(pos, z, t);
-        double decayFactor = pow((1 + t / t0), -n);
-        B *= pow(decayFactor, 2); // Apply the decay factor to the magnetic field
+        double decayFactor = pow((1 + t_field / t0), -n);
+        B *= pow(decayFactor, 0.5); // Apply the decay factor to the magnetic field
         }
         else {
             B = magneticField->getField(pos, z, t);
