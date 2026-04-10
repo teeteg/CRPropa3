@@ -235,6 +235,24 @@ public:
 
 
 /**
+ @class ObserverTimeWindow
+ @brief Only detects candidates falling in a specifc explicit-time interval
+ */
+class ObserverTimeWindow: public ObserverFeature {
+private:
+	double tmin;
+	double tmax;
+public:
+	/** Constructor
+	 @param tmin	lower bound of explicit-time interval
+	 @param tmax	upper bound of explicit-time interval
+	 */
+	ObserverTimeWindow(double tmin, double tmax);
+	DetectionState checkDetection(Candidate *Candidate) const;
+};
+
+
+/**
  @class ObserverTimeEvolution
  @brief Observes the time evolution of the candidates (phase-space elements)
  This observer is very useful if the time evolution of the particle density is needed. It detects all candidates in lin-spaced, log-spaced, or user-defined time intervals and limits the nextStep of candidates to prevent overshooting of detection intervals.

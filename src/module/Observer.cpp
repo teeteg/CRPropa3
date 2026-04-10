@@ -242,6 +242,22 @@ std::string ObserverParticleIdVeto::getDescription() const {
 }
 
 
+// ObserverTimeWindow -----------------------------------------------------
+ObserverTimeWindow::ObserverTimeWindow(double tmin, double tmax) :
+		tmin(tmin), tmax(tmax) {
+}
+
+DetectionState ObserverTimeWindow::checkDetection(
+		Candidate *candidate) const {
+	double t = candidate->getTime();
+	if (t > tmax)
+		return VETO;
+	if (t < tmin)
+		return VETO;
+	return NOTHING;
+}
+
+
 // ObserverTimeEvolution --------------------------------------------------------
 ObserverTimeEvolution::ObserverTimeEvolution() {}
 

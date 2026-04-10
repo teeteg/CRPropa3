@@ -966,6 +966,7 @@ SourceUniformTime::SourceUniformTime(double tmax, bool logscale = false):
 		setTimeMin(0.0);
 	} 
 
+// this seems potentially stuff breaking with small times
 void SourceUniformTime::prepareCandidate(Candidate &candidate) const {
 
 	if (logscale) {
