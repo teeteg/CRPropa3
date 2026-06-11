@@ -48,7 +48,7 @@ jobs:
       - name: run test
         run: | 
           cd build
-          make test
+          ctest --output-on-failure
         continue-on-error: true
       - name: coverage report
         run: |
