@@ -397,6 +397,7 @@ add_library(crpropa SHARED
   ${CMAKE_CURRENT_SOURCE_DIR}/src/magneticField/JF12FieldSolenoidal.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/magneticField/MagneticField.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/magneticField/MagneticFieldGrid.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/magneticField/timedependentField/MagneticFieldTimeDecay.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/magneticField/PolarizedSingleModeMagneticField.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/magneticField/PT11Field.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/magneticField/turbulentField/GridTurbulence.cpp
